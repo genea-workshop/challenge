@@ -3,7 +3,7 @@ import { LeaderboardEntry, AutomatedEvaluationEntry } from './types';
 // IMPORTANT: This path must match the 'base' property in vite.config.ts.
 // It's used for client-side routing to fix an issue where import.meta.env.BASE_URL
 // is not available in the execution environment.
-export const BASE_PATH = '/leaderboard/';
+export const BASE_PATH = '/challenge/';
 
 const modelWebsites: { [key: string]: string } = {
   'Motion capture': 'https://pantomatrix.github.io/EMAGE/',

@@ -8,5 +8,5 @@ export default defineConfig({
   // IMPORTANT: Update this to your repository name for GitHub Pages deployment.
   // For example, if your repository is at https://github.com/user/my-repo,
   // set base to '/my-repo/'.
-  base: '/leaderboard/',
+  base: '/challenge/',
 })
