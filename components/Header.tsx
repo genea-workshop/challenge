@@ -27,11 +27,14 @@ const Header: React.FC = () => {
             </div>
             <div>
               <hr className="mb-3 border-white/40 w-48" />
-              <p className="text-3xl font-semibold text-white/90 leading-loose">
+              <p className="text-2xl font-semibold text-white/90 leading-relaxed">
                 Interactive Social Agents Workshop
               </p>
-              <p className="text-3xl font-semibold text-white/90 leading-loose">
-                ECCV 2026
+              <p className="text-2xl font-semibold text-white/90 leading-relaxed">
+                September 8-9, 2026
+              </p>
+              <p className="text-2xl font-semibold text-white/90 leading-relaxed">
+                ECCV 2026 in Malmö, Sweden
               </p>
             </div>
           </div>

@@ -9,6 +9,7 @@ const dates = [
   { date: 'July 15, 2026', event: 'Paper submission deadline' },
   { date: 'August 3, 2026', event: 'Author notifications' },
   { date: 'August 8, 2026', event: 'Camera-ready version deadline' },
+  { date: 'September 8-9, 2026', event: 'ECCV Workshop in Malmö, Sweden' },
 ];
 
 const organizers = [
@@ -281,8 +282,8 @@ const ChallengePage: React.FC<{ pageNavHeight?: number }> = ({ pageNavHeight = 0
         <SectionHeading>Organising committee</SectionHeading>
         <p className="mb-8">
           Questions about the challenge can be sent to{' '}
-          <a href="mailto:genea-challenge@googlegroups.com" className="font-semibold text-brand-primary hover:underline">
-            genea-challenge@googlegroups.com
+          <a href="mailto:genea-leaderboard@googlegroups.com" className="font-semibold text-brand-primary hover:underline">
+            genea-leaderboard@googlegroups.com
           </a>.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
