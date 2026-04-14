@@ -73,7 +73,7 @@ const SectionHeading: React.FC<{ children: React.ReactNode }> = ({ children }) =
 const OrganizerCard: React.FC<typeof organizers[0]> = ({ name, imageUrl, affiliation, link }) => (
   <div className="group text-center bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100">
     <div className="p-4">
-      <img className="w-48 h-48 mx-auto rounded-lg object-cover" src={imageUrl} alt={`Photo of ${name}`} />
+      <img className="w-28 h-28 sm:w-48 sm:h-48 mx-auto rounded-lg object-cover" src={imageUrl} alt={`Photo of ${name}`} />
     </div>
     <div className="px-5 pb-5">
       <a href={link} target="_blank" rel="noopener noreferrer" className="block text-base font-semibold text-brand-text group-hover:text-brand-primary transition-colors">{name}</a>
@@ -144,7 +144,7 @@ const ChallengePage: React.FC<{ pageNavHeight?: number }> = ({ pageNavHeight = 0
       {/* Section Navigation Buttons — only visible when floating */}
       {isFloating && (
         <nav
-          className="fixed inset-x-0 z-40 flex w-full justify-center gap-2 bg-white/80 backdrop-blur-md border-b border-gray-200/60 px-4 py-2"
+          className="fixed inset-x-0 z-40 flex w-full justify-start sm:justify-center gap-2 bg-white/80 backdrop-blur-md border-b border-gray-200/60 px-4 py-2 overflow-x-auto scrollbar-hide"
           style={{ top: pageNavHeight }}
         >
           {[
@@ -160,7 +160,7 @@ const ChallengePage: React.FC<{ pageNavHeight?: number }> = ({ pageNavHeight = 0
                 key={href}
                 href={href}
                 onClick={(e) => handleSmoothScroll(e, href)}
-                className={`px-3.5 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 ${isActive
+                className={`px-3.5 py-1.5 text-sm font-medium rounded-full border whitespace-nowrap shrink-0 transition-all duration-200 ${isActive
                   ? 'bg-brand-primary text-white border-brand-primary'
                   : 'text-brand-text-muted border-gray-200 hover:bg-brand-primary hover:text-white hover:border-brand-primary'
                   }`}
