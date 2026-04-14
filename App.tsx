@@ -1,85 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
-import Leaderboard from './components/Leaderboard';
 import Footer from './components/Footer';
-import DataReleasePage from './components/pages/DataReleasePage';
-import SubmitPage from './components/pages/SubmitPage';
-import AboutUsPage from './components/pages/AboutUsPage';
+import ChallengePage from './components/pages/ChallengePage';
+import RulesPage from './components/pages/RulesPage';
 import ToolingPage from './components/pages/ToolingPage';
-import { BASE_PATH } from './constants';
 
-export type Page = 'Leaderboard' | 'DataRelease' | 'Tooling' | 'Submit' | 'AboutUs';
-
-const pageToSlug: Record<Page, string> = {
-  Leaderboard: '',
-  DataRelease: 'data-release',
-  Tooling: 'tooling',
-  Submit: 'submit',
-  AboutUs: 'about-us',
+const getPage = () => {
+  if (window.location.hash === '#rules') return 'rules';
+  if (window.location.hash === '#tooling') return 'tooling';
+  return 'home';
 };
 
-const slugToPage = Object.fromEntries(Object.entries(pageToSlug).map(([page, slug]) => [slug, page as Page]));
-
-const getPageFromPath = (path: string): Page => {
-  const basePath = BASE_PATH || '/';
-  let relativePath = path.startsWith(basePath) ? path.substring(basePath.length) : path;
-  if (relativePath.length > 0 && relativePath.endsWith('/')) {
-    relativePath = relativePath.slice(0, -1);
-  }
-  return slugToPage[relativePath] || 'Leaderboard';
-};
+const PAGE_NAV_HEIGHT = 40; // px, keep in sync with the bar's py + font size
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<Page>(() => getPageFromPath(window.location.pathname));
-
-  const handleNavigate = (page: Page) => {
-    const slug = pageToSlug[page];
-    const path = `${BASE_PATH}${slug || ''}`;
-
-    // Construct a full URL to compare against location.href to handle potential hash/search params
-    const targetUrl = new URL(path, window.location.origin);
-
-    if (window.location.href !== targetUrl.href) {
-      window.history.pushState({ page }, '', path);
-    }
-    setCurrentPage(page);
-  };
+  const [page, setPage] = useState(getPage);
 
   useEffect(() => {
-    const onPopState = () => {
-      setCurrentPage(getPageFromPath(window.location.pathname));
+    const onHashChange = () => {
+      const next = getPage();
+      setPage(next);
+      // Scroll to top when switching pages
+      window.scrollTo({ top: 0 });
     };
-
-    window.addEventListener('popstate', onPopState);
-    return () => {
-      window.removeEventListener('popstate', onPopState);
-    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
-
-  const renderContent = () => {
-    switch (currentPage) {
-      case 'Leaderboard':
-        return <Leaderboard onNavigate={handleNavigate} />;
-      case 'DataRelease':
-        return <DataReleasePage />;
-      case 'Tooling':
-        return <ToolingPage />;
-      case 'Submit':
-        return <SubmitPage />;
-      case 'AboutUs':
-        return <AboutUsPage />;
-      default:
-        return <Leaderboard onNavigate={handleNavigate} />;
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col text-brand-text">
-      <Header currentPage={currentPage} onNavigate={handleNavigate} />
-      <main className="flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {renderContent()}
-      </main>
-      <Footer />
+      {/* Page-toggle bar — always fixed at the very top */}
+      <div className="fixed top-0 inset-x-0 z-50 flex justify-center bg-white/80 backdrop-blur-md border-b border-gray-200/60">
+        <div className="flex gap-1 p-1.5">
+          <a
+            href="#"
+            className={`px-5 py-1.5 text-sm font-semibold rounded-full transition-all duration-200 ${page === 'home'
+                ? 'bg-brand-primary text-white shadow-sm'
+                : 'text-brand-text-muted hover:text-brand-text hover:bg-gray-100'
+              }`}
+          >
+            Overview
+          </a>
+          <a
+            href="#rules"
+            className={`px-5 py-1.5 text-sm font-semibold rounded-full transition-all duration-200 ${page === 'rules'
+                ? 'bg-brand-primary text-white shadow-sm'
+                : 'text-brand-text-muted hover:text-brand-text hover:bg-gray-100'
+              }`}
+          >
+            Rules
+          </a>
+          <a
+            href="#tooling"
+            className={`px-5 py-1.5 text-sm font-semibold rounded-full transition-all duration-200 ${page === 'tooling'
+                ? 'bg-brand-primary text-white shadow-sm'
+                : 'text-brand-text-muted hover:text-brand-text hover:bg-gray-100'
+              }`}
+          >
+            Tooling
+          </a>
+        </div>
+      </div>
+
+      {/* Push content below the fixed page-toggle bar */}
+      <div style={{ paddingTop: PAGE_NAV_HEIGHT }}>
+        {page === 'home' && <Header />}
+        <main className="flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {page === 'rules' ? <RulesPage /> : page === 'tooling' ? <ToolingPage /> : <ChallengePage pageNavHeight={PAGE_NAV_HEIGHT} />}
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };
