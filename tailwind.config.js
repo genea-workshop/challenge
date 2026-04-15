@@ -14,6 +14,7 @@ export default {
         'brand-secondary': '#4F46E5',
         'brand-text': '#111827',
         'brand-text-muted': '#6B7280',
+        'brand-success': '#059669',
       },
     },
   },
